@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chronotrack-dev-5f099-authRole",
+      "UnauthRoleArn": "arn:aws:iam::025066244743:role/amplify-chronotrack-dev-5f099-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::025066244743:role/amplify-chronotrack-dev-5f099-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-chronotrack-dev-5f099-deployment",
+      "UnauthRoleName": "amplify-chronotrack-dev-5f099-unauthRole",
+      "StackName": "amplify-chronotrack-dev-5f099",
+      "StackId": "arn:aws:cloudformation:ca-central-1:025066244743:stack/amplify-chronotrack-dev-5f099/40f2fff0-38f7-11f0-9ace-0e82b3f539e1",
+      "AmplifyAppId": "d1j35oikumbx6z"
+    },
+    "categories": {
+      "auth": {
+        "chronotrackbaff5aba": {}
+      }
+    }
+  }
+}
