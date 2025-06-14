@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'timesheet_form_page.dart';
 import 'user_profile_page.dart';
+import 'sign_out_button.dart';
 
 class UploadPage extends StatefulWidget {
   final String userEmail;
@@ -136,7 +137,15 @@ class _UploadPageState extends State<UploadPage> {
             icon: const Icon(Icons.person),
             tooltip: "My Profile",
             onPressed: goToProfilePage,
-          )
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: "Sign Out",
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()
+          ),
         ],
       ),
       body: Padding(
