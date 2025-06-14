@@ -1,3 +1,4 @@
+import 'package:chronotrack/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
@@ -39,10 +40,11 @@ class _UploadPageState extends State<UploadPage> {
     'September',
     'October',
     'November',
-    'December'
+    'December',
   ];
   final List<String> years = [
-    for (int y = DateTime.now().year - 1; y <= DateTime.now().year + 2; y++) '$y'
+    for (int y = DateTime.now().year - 1; y <= DateTime.now().year + 2; y++)
+      '$y',
   ];
 
   Future<void> pickAndUploadFile() async {
@@ -78,10 +80,11 @@ class _UploadPageState extends State<UploadPage> {
         final presignResponse = await http.get(Uri.parse(apiUrl));
         if (presignResponse.statusCode == 200) {
           final uploadUrl = jsonDecode(presignResponse.body)["upload_url"];
-          final uploadResponse =
-              await http.put(Uri.parse(uploadUrl), body: fileBytes, headers: {
-    'x-amz-acl': 'bucket-owner-full-control',
-  },);
+          final uploadResponse = await http.put(
+            Uri.parse(uploadUrl),
+            body: fileBytes,
+            headers: {'x-amz-acl': 'bucket-owner-full-control'},
+          );
 
           if (uploadResponse.statusCode == 200) {
             setState(() {
@@ -112,9 +115,7 @@ class _UploadPageState extends State<UploadPage> {
   void goToFormPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => const TimesheetFormPage(),
-      ),
+      MaterialPageRoute(builder: (_) => const TimesheetFormPage()),
     );
   }
 
@@ -144,7 +145,9 @@ class _UploadPageState extends State<UploadPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginPage()
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
           ),
         ],
       ),
@@ -166,7 +169,9 @@ class _UploadPageState extends State<UploadPage> {
               DropdownButtonFormField<String>(
                 value: selectedWeek,
                 items: weeks
-                    .map((w) => DropdownMenuItem(value: w, child: Text("Week $w")))
+                    .map(
+                      (w) => DropdownMenuItem(value: w, child: Text("Week $w")),
+                    )
                     .toList(),
                 onChanged: (val) => setState(() => selectedWeek = val),
                 decoration: const InputDecoration(labelText: "Week"),
