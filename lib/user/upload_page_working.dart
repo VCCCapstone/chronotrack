@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart'; // Import for date formatting and week number calculation
-import 'package:mime/mime.dart'; // Import for MIME type lookup by file extension
+import 'package:intl/intl.dart'; // <<< ADDED: Import for date formatting and week number calculation
+import 'package:mime/mime.dart'; // <<< ADDED: Import for MIME type lookup by file extension
 
 import 'timesheet_form_page.dart';
 import 'user_profile_page.dart';
@@ -22,25 +22,29 @@ class _UploadPageState extends State<UploadPage> {
   bool loading = false;
 
   // Fields for building file name
-  // final _employeeNameController = TextEditingController(); // <<< REMOVED: No longer needed for dynamic naming
+  final _employeeNameController = TextEditingController();
+  // String? selectedWeek; // <<< REMOVED: No longer needed for dynamic naming
+  // String? selectedMonth; // <<< REMOVED: No longer needed for dynamic naming
+  // String? selectedYear;  // <<< REMOVED: No longer needed for dynamic naming
 
-  // No longer needed: selectedWeek, selectedMonth, selectedYear
-  // No longer needed: weeks, months, years lists
+  // final List<String> weeks = ['1', '2', '3', '4', '5']; // <<< REMOVED: No longer needed
+  // final List<String> months = [ // <<< REMOVED: No longer needed
+  //   'January', 'February', 'March', 'April', 'May', 'June', 'July',
+  //   'August', 'September', 'October', 'November', 'December'
+  // ];
+  // final List<String> years = [ // <<< REMOVED: No longer needed
+  //   for (int y = DateTime.now().year - 1; y <= DateTime.now().year + 2; y++) '$y'
+  // ];
 
-  // Helper to calculate week number within the month
-  // e.g., Day 1-7 = Week 1, Day 8-14 = Week 2, etc.
-  int getWeekNumberInMonth(DateTime date) {
-    return (date.day / 7).ceil();
+  // <<< ADDED: Helper to calculate ISO week number
+  int getWeekNumber(DateTime date) {
+    final jan4 = DateTime(date.year, 1, 4);
+    final week1Start = jan4.subtract(Duration(days: jan4.weekday - 1));
+    return ((date.difference(week1Start).inDays / 7)).ceil();
   }
 
-  // Helper to calculate ISO week number (from previous logic, keeping for reference if needed)
-  // int getWeekNumber(DateTime date) {
-  //   final jan4 = DateTime(date.year, 1, 4);
-  //   final week1Start = jan4.subtract(Duration(days: jan4.weekday - 1));
-  //   return ((date.difference(week1Start).inDays / 7)).ceil();
-  // }
-
   Future<void> pickAndUploadFile() async {
+    // <<< MODIFIED: Set loading true immediately for feedback
     setState(() {
       status = "Picking file...";
       loading = true;
@@ -51,35 +55,33 @@ class _UploadPageState extends State<UploadPage> {
     if (result != null && result.files.single.bytes != null) {
       final fileBytes = result.files.single.bytes!;
       final fileExtension = result.files.single.extension ?? 'jpg';
+      // <<< MODIFIED: Get the MIME type using the 'mime' package from the file extension
       final fileMimeType = lookupMimeType(result.files.single.name) ?? 'image/jpeg';
 
-      // --- Dynamic Filename Components ---
+
+      // Validate fields
+      // <<< MODIFIED: Only validate employee name now, as date fields are dynamic
+      if (_employeeNameController.text.isEmpty) {
+        setState(() {
+          status = "Please enter Employee Name.";
+          loading = false; // <<< ADDED: Stop loading if validation fails
+        });
+        return;
+      }
+
+      // <<< ADDED: Dynamic Date Calculation
       DateTime now = DateTime.now();
-
-      // 1. Process User Email for Username Part
-      // Example: "john.doe@example.com" -> "john_doe_at_example_com"
-      String usernamePart = widget.userEmail
-          .replaceAll('@', '_at_')
-          .replaceAll('.', '_')
-          .toLowerCase();
-
-      // 2. Calculate Week Number in Month
-      int weekNumber = getWeekNumberInMonth(now);
-
-      // 3. Format Month (MM)
-      String monthName = DateFormat('MMMM').format(now); // e.g., "June"
-
-      // 4. Format Year (YYYY)
       String year = DateFormat('yyyy').format(now); // e.g., "2025"
+      String monthName = DateFormat('MMMM').format(now); // e.g., "June"
+      int weekNumber = getWeekNumber(now); // Calculate ISO week number
 
-      // Construct the dynamic file name: 'username_at_domain_com-Weeknumber-MM-YYYY.fileextention'
-      // <<< MODIFIED: Changed monthDigits to monthName
+      // <<< MODIFIED: Construct the dynamic file name
       final fileName =
-          "${usernamePart}-Week$weekNumber-$monthName-$year.${fileExtension}";
+          "${_employeeNameController.text}-Week$weekNumber-$monthName-$year-TimeSheet.$fileExtension";
 
       setState(() {
-        loading = true;
-        status = "Generating pre-signed URL for $fileName...";
+        loading = true; // Ensure loading is true before API call
+        status = "Generating pre-signed URL for $fileName..."; // More specific status
       });
 
       final apiUrl =
@@ -88,8 +90,10 @@ class _UploadPageState extends State<UploadPage> {
       try {
         final presignResponse = await http.get(Uri.parse(apiUrl));
         if (presignResponse.statusCode == 200) {
+          // <<< FIXED: Changed from "upload_url" to "uploadUrl" (matching Lambda output)
           final uploadUrl = jsonDecode(presignResponse.body)["uploadUrl"];
 
+          // <<< ADDED: Robust check for uploadUrl before using
           if (uploadUrl == null || uploadUrl.isEmpty) {
             setState(() {
               status = "Error: Backend did not provide a valid uploadUrl. Response: ${presignResponse.body}";
@@ -99,13 +103,13 @@ class _UploadPageState extends State<UploadPage> {
           }
 
           setState(() {
-            status = "Uploading file to S3...";
+            status = "Uploading file to S3..."; // More specific status
           });
 
           final uploadResponse =
               await http.put(Uri.parse(uploadUrl), body: fileBytes, headers: {
             'x-amz-acl': 'bucket-owner-full-control',
-            'Content-Type': fileMimeType,
+            'Content-Type': fileMimeType, // <<< FIXED: Added Content-Type header
           },);
 
           if (uploadResponse.statusCode == 200) {
@@ -113,12 +117,14 @@ class _UploadPageState extends State<UploadPage> {
               status = "Upload successful: $fileName";
             });
           } else {
+            // <<< MODIFIED: Improved error message for S3 upload failure
             setState(() {
               status = "Upload failed: ${uploadResponse.statusCode}. Response: ${uploadResponse.body}";
             });
             debugPrint("S3 upload failed: ${uploadResponse.statusCode} - ${uploadResponse.body}");
           }
         } else {
+          // <<< MODIFIED: Improved error message for pre-signed URL error
           setState(() {
             status = "Error getting pre-signed URL. Status: ${presignResponse.statusCode}. Body: ${presignResponse.body}";
           });
@@ -128,16 +134,17 @@ class _UploadPageState extends State<UploadPage> {
         setState(() {
           status = "Upload error: $e";
         });
-        debugPrint("Caught upload error: $e");
+        debugPrint("Caught upload error: $e"); // <<< ADDED: Debug print for generic errors
       } finally {
         setState(() {
           loading = false;
         });
       }
     } else {
+      // <<< ADDED: Status for cancelled picking
       setState(() {
         status = "File picking cancelled or no file selected.";
-        loading = false;
+        loading = false; // <<< ADDED: Stop loading if file picking is cancelled
       });
     }
   }
@@ -183,11 +190,43 @@ class _UploadPageState extends State<UploadPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              // TextFormField for employee name is removed as it's now dynamic
-              const SizedBox(height: 20),
+              TextFormField(
+                controller: _employeeNameController,
+                decoration: const InputDecoration(labelText: "Employee Name"),
+              ),
+              // <<< REMOVED: Dropdowns for Week, Month, Year
+              // const SizedBox(height: 12),
+              // DropdownButtonFormField<String>(
+              //   value: selectedWeek,
+              //   items: weeks
+              //       .map((w) => DropdownMenuItem(value: w, child: Text("Week $w")))
+              //       .toList(),
+              //   onChanged: (val) => setState(() => selectedWeek = val),
+              //   decoration: const InputDecoration(labelText: "Week"),
+              // ),
+              // const SizedBox(height: 12),
+              // DropdownButtonFormField<String>(
+              //   value: selectedMonth,
+              //   items: months
+              //       .map((m) => DropdownMenuItem(value: m, child: Text(m)))
+              //       .toList(),
+              //   onChanged: (val) => setState(() => selectedMonth = val),
+              //   decoration: const InputDecoration(labelText: "Month"),
+              // ),
+              // const SizedBox(height: 12),
+              // DropdownButtonFormField<String>(
+              //   value: selectedYear,
+              //   items: years
+              //       .map((y) => DropdownMenuItem(value: y, child: Text(y)))
+              //       .toList(),
+              //   onChanged: (val) => setState(() => selectedYear = val),
+              //   decoration: const InputDecoration(labelText: "Year"),
+              // ),
+              const SizedBox(height: 20), // Adjusted spacing
               ElevatedButton.icon(
                 onPressed: loading ? null : pickAndUploadFile,
                 icon: const Icon(Icons.upload),
+                // <<< MODIFIED: Dynamic button label based on loading state
                 label: Text(loading ? "Uploading..." : "Upload Timesheet Image"),
               ),
               const SizedBox(height: 16),
@@ -197,6 +236,7 @@ class _UploadPageState extends State<UploadPage> {
                 label: const Text("Fill Timesheet Form"),
               ),
               const SizedBox(height: 20),
+              // <<< MODIFIED: Center align status text for better presentation
               Text(status, textAlign: TextAlign.center,),
             ],
           ),
