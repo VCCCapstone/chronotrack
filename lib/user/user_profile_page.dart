@@ -1,12 +1,13 @@
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
+
 import 'dart:convert';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class UserProfilePage extends StatefulWidget {
-  final String userEmail;
-  const UserProfilePage({super.key, required this.userEmail});
+  const UserProfilePage({super.key});
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
@@ -14,194 +15,293 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  Map<String, dynamic> profile = {};
+  String status = '';
+  String? _previewImageUrl;
 
-  final _fullNameController = TextEditingController();
-  final _dobController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _departmentController = TextEditingController();
-  final _reportsToController = TextEditingController();
+  final List<String> departments = [
+    'NEMT',
+    'Transit',
+    'School Division',
+    'HR',
+    'IT',
+    'Management',
+    'Operations',
+    'Marketing',
+  ];
 
-  Uint8List? _imageBytes;
-  String? _imageUrl;
-  bool _loading = false;
-  String _statusMessage = '';
-
-  Future<void> _pickAndUploadProfilePic() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowedExtensions: ['jpg', 'png'],
-    );
-
-    if (result != null && result.files.single.bytes != null) {
-      final bytes = result.files.single.bytes!;
-      final name = result.files.single.name;
-
-      setState(() {
-        _imageBytes = bytes;
-        _statusMessage = 'Uploading image...';
-      });
-
-      final urlEndpoint =
-          "https://01c0sut2b7.execute-api.ca-central-1.amazonaws.com/prod/profile-pic-url?filename=$name";
-
-      try {
-        final urlResponse = await http.get(Uri.parse(urlEndpoint));
-        final uploadUrl = jsonDecode(urlResponse.body)['upload_url'];
-
-        final uploadResponse = await http.put(
-          Uri.parse(uploadUrl),
-          headers: {"Content-Type": "image/jpeg"},
-          body: bytes,
-        );
-
-        if (uploadResponse.statusCode == 200) {
-          final finalImageUrl =
-              uploadUrl.split('?').first; // strip signed query
-          setState(() {
-            _imageUrl = finalImageUrl;
-            _statusMessage = "Profile picture uploaded!";
-          });
-        } else {
-          setState(() => _statusMessage = "Upload failed");
-        }
-      } catch (e) {
-        setState(() => _statusMessage = "Upload error: $e");
-      }
-    }
+  @override
+  void initState() {
+    super.initState();
+    fetchProfile();
   }
 
-  Future<void> _submitProfile() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _loading = true;
-      _statusMessage = '';
-    });
-
-    final profileData = {
-      "email": widget.userEmail,
-      "fullName": _fullNameController.text,
-      "dob": _dobController.text,
-      "phoneNumber": _phoneController.text,
-      "address": _addressController.text,
-      "department": _departmentController.text,
-      "reportsTo": _reportsToController.text,
-      "role": "user",
-      "profilePictureUrl": _imageUrl ?? "",
-    };
-
-    const apiUrl =
-        "https://t3ivt5ycc4.execute-api.ca-central-1.amazonaws.com/prod/employee/add";
-
+  Future<void> fetchProfile() async {
     try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(profileData),
+      final attributes = await Amplify.Auth.fetchUserAttributes();
+      final email = attributes
+          .firstWhere((a) => a.userAttributeKey.key == 'email')
+          .value;
+
+      final response = await http.get(
+        Uri.parse(
+          'https://t3ivt5ycc4.execute-api.ca-central-1.amazonaws.com/prod/employee/get?email=$email',
+        ),
       );
 
       if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
         setState(() {
-          _statusMessage = "Profile saved successfully!";
+          profile = data;
+          _previewImageUrl = data['profilePictureUrl'];
         });
       } else {
-        final errorMsg =
-            jsonDecode(response.body)['message'] ?? 'Unknown error';
-        setState(() => _statusMessage = "Failed: $errorMsg");
+        setState(() => status = 'Failed to load profile.');
       }
     } catch (e) {
-      setState(() => _statusMessage = "Error: $e");
-    } finally {
-      setState(() => _loading = false);
+      setState(() => status = 'Error fetching profile: $e');
     }
   }
 
-  @override
-  void dispose() {
-    _fullNameController.dispose();
-    _dobController.dispose();
-    _phoneController.dispose();
-    _addressController.dispose();
-    _departmentController.dispose();
-    _reportsToController.dispose();
-    super.dispose();
+  Future<void> uploadProfilePicture() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg'],
+    );
+    if (result == null || result.files.single.bytes == null) return;
+
+    final fileBytes = result.files.single.bytes!;
+    final email = profile['email']?.toString().toLowerCase();
+    if (email == null || email.isEmpty) return;
+
+    final extension = 'jpg';
+
+    final presignUri = Uri.parse(
+      'https://01c0sut2b7.execute-api.ca-central-1.amazonaws.com/prod/profile-pic-url?email=${Uri.encodeComponent(email)}&extension=$extension',
+    );
+
+    final presignRes = await http.get(presignUri);
+
+    if (presignRes.statusCode == 200) {
+      final body = jsonDecode(presignRes.body);
+      final uploadUrl = body['upload_url'];
+      final fileUrl = body['file_url'];
+
+      final putRes = await http.put(
+        Uri.parse(uploadUrl),
+        body: fileBytes,
+        headers: {'Content-Type': 'image/jpeg'},
+      );
+
+      if (putRes.statusCode == 200) {
+        setState(() {
+          _previewImageUrl = fileUrl;
+        });
+
+        final updatedProfile = {...profile, 'profilePictureUrl': fileUrl};
+
+        final updateRes = await http.post(
+          Uri.parse(
+            'https://t3ivt5ycc4.execute-api.ca-central-1.amazonaws.com/prod/employee/update-picture',
+          ),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(updatedProfile),
+        );
+
+        setState(() {
+          status = updateRes.statusCode == 200
+              ? '✅ Profile picture updated.'
+              : '❌ Failed to update picture.';
+        });
+      } else {
+        setState(() => status = '❌ Upload to S3 failed.');
+      }
+    } else {
+      setState(() => status = '❌ Failed to get pre-signed URL.');
+    }
+  }
+
+  Future<void> saveProfile() async {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+          'https://t3ivt5ycc4.execute-api.ca-central-1.amazonaws.com/prod/employee/update',
+        ),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(profile),
+      );
+
+      setState(() {
+        status = response.statusCode == 200
+            ? '✅ Profile updated successfully.'
+            : '❌ Failed to update profile.';
+      });
+    } catch (e) {
+      setState(() => status = 'Error saving profile: $e');
+    }
+  }
+
+  Future<void> _signOut() async {
+    try {
+      await Amplify.Auth.signOut();
+      if (context.mounted) {
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/login', (route) => false);
+      }
+    } catch (e) {
+      setState(() => status = 'Sign out failed: $e');
+    }
+  }
+
+  Widget _buildInitialAvatar(String initials) {
+    return CircleAvatar(
+      radius: 60,
+      backgroundColor: Colors.purple,
+      child: Text(
+        initials,
+        style: const TextStyle(fontSize: 32, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildField(String key, String label, {bool enabled = true}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        initialValue: profile[key]?.toString() ?? '',
+        enabled: enabled,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        onSaved: (val) => profile[key] = val,
+      ),
+    );
+  }
+
+  Widget _buildDropdownField(String key, String label, List<String> items) {
+    final currentValue = items.firstWhere(
+      (item) =>
+          item.toLowerCase() == (profile[key]?.toString().toLowerCase() ?? ''),
+      orElse: () => "Other",
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: DropdownButtonFormField<String>(
+        value: currentValue,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        items: items
+            .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+            .toList(),
+        onChanged: (val) => setState(() => profile[key] = val),
+        onSaved: (val) => profile[key] = val,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final purple = theme.colorScheme.primary;
+
+    final initials = (profile['fullName'] ?? '')
+        .toString()
+        .split(' ')
+        .map((e) => e.isNotEmpty ? e[0] : '')
+        .take(2)
+        .join()
+        .toUpperCase();
+
     return Scaffold(
-      appBar: AppBar(title: const Text("User Profile")),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                if (_imageBytes != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.memory(_imageBytes!, height: 150),
+      appBar: AppBar(
+        title: const Text('My Profile'),
+        backgroundColor: const Color(0xFF6A0DAD),
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Sign Out',
+            onPressed: _signOut,
+          ),
+        ],
+      ),
+      body: profile.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      _previewImageUrl != null && _previewImageUrl!.isNotEmpty
+                          ? CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.grey[200],
+                              backgroundImage: NetworkImage(_previewImageUrl!),
+                            )
+                          : _buildInitialAvatar(initials),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: uploadProfilePicture,
+                          child: CircleAvatar(
+                            backgroundColor: purple,
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                const SizedBox(height: 8),
-                ElevatedButton.icon(
-                  onPressed: _pickAndUploadProfilePic,
-                  icon: const Icon(Icons.photo),
-                  label: const Text("Upload Profile Picture"),
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _fullNameController,
-                  decoration: const InputDecoration(labelText: 'Full Name'),
-                  validator: (v) =>
-                      v == null || v.isEmpty ? 'Enter your name' : null,
-                ),
-                TextFormField(
-                  controller: _dobController,
-                  decoration:
-                      const InputDecoration(labelText: 'Date of Birth (YYYY-MM-DD)'),
-                ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: const InputDecoration(labelText: 'Phone Number'),
-                ),
-                TextFormField(
-                  controller: _addressController,
-                  decoration: const InputDecoration(labelText: 'Address'),
-                ),
-                TextFormField(
-                  controller: _departmentController,
-                  decoration: const InputDecoration(labelText: 'Department'),
-                ),
-                TextFormField(
-                  controller: _reportsToController,
-                  decoration:
-                      const InputDecoration(labelText: 'Reporting Manager'),
-                ),
-                const SizedBox(height: 24),
-                if (_statusMessage.isNotEmpty)
-                  Text(
-                    _statusMessage,
-                    style: TextStyle(
-                      color: _statusMessage.startsWith("Failed") ||
-                              _statusMessage.contains("error")
-                          ? Colors.red
-                          : Colors.green,
+                  const SizedBox(height: 24),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        _buildField('fullName', 'Full Name', enabled: false),
+                        _buildField('dob', 'Date of Birth', enabled: false),
+                        _buildField('phoneNumber', 'Phone Number'),
+                        _buildField('address', 'Address'),
+                        _buildDropdownField(
+                          'department',
+                          'Department',
+                          departments,
+                        ),
+                        _buildField('reportsTo', 'Reporting Manager'),
+                      ],
                     ),
                   ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: _loading ? null : _submitProfile,
-                  child: _loading
-                      ? const CircularProgressIndicator()
-                      : const Text("Save Profile"),
-                ),
-              ],
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: saveProfile,
+                    icon: const Icon(Icons.save),
+                    label: const Text('Save Profile'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: purple,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(status),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+
 import 'user/upload_page.dart';
 import 'admin/admin_dashboard.dart';
 import 'new_password_page.dart';
+import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   String _errorMessage = '';
   bool _loading = false;
+  bool _obscurePassword = true; // 👁 toggle state
 
   Map<String, dynamic> _decodeJwtPayload(String token) {
     final parts = token.split('.');
@@ -64,8 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) =>
-                isAdmin ? const AdminDashboard() : UploadPage(userEmail: email),
+            builder: (_) => isAdmin ? const AdminDashboard() : UploadPage(),
           ),
         );
       } else if (result.nextStep.signInStep ==
@@ -73,13 +75,13 @@ class _LoginPageState extends State<LoginPage> {
         if (!mounted) return;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (_) => NewPasswordPage(userEmail: email),
-          ),
+          MaterialPageRoute(builder: (_) => NewPasswordPage(userEmail: email)),
         );
       } else {
-        setState(() => _errorMessage =
-            "Sign in failed. Step: ${result.nextStep.signInStep}");
+        setState(
+          () => _errorMessage =
+              "Sign in failed. Step: ${result.nextStep.signInStep}",
+        );
       }
     } on AuthException catch (e) {
       setState(() => _errorMessage = e.message);
@@ -100,7 +102,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("ChronoTrack Login")),
+      appBar: AppBar(
+        title: const Text("ChronoTrack Login", textAlign: TextAlign.center),
+        backgroundColor: const Color(0xFF6A0DAD),
+        foregroundColor: Colors.white,
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
@@ -109,21 +116,40 @@ class _LoginPageState extends State<LoginPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  const Text("Sign in to continue", style: TextStyle(fontSize: 20)),
+                  const Text(
+                    "Sign in to continue",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   const SizedBox(height: 24),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
-                    validator: (value) =>
-                        value == null || value.isEmpty ? 'Enter your email' : null,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Enter your email'
+                        : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) =>
-                        value == null || value.isEmpty ? 'Enter your password' : null,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                    ),
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Enter your password'
+                        : null,
                   ),
                   const SizedBox(height: 24),
                   if (_errorMessage.isNotEmpty)
@@ -143,6 +169,18 @@ class _LoginPageState extends State<LoginPage> {
                     child: _loading
                         ? const CircularProgressIndicator()
                         : const Text("Sign In"),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ForgotPasswordPage(),
+                        ),
+                      );
+                    },
+                    child: const Text("Forgot Password?"),
                   ),
                 ],
               ),

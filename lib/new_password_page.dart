@@ -44,9 +44,7 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => isAdmin
-                ? const AdminDashboard()
-                : UploadPage(userEmail: widget.userEmail),
+            builder: (_) => isAdmin ? const AdminDashboard() : UploadPage(),
           ),
         );
       } else {
@@ -70,7 +68,11 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Set New Password")),
+      appBar: AppBar(
+        title: const Text("Set New Password"),
+        backgroundColor: const Color(0xFF6A0DAD),
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
@@ -86,14 +88,20 @@ class _NewPasswordPageState extends State<NewPasswordPage> {
                   const SizedBox(height: 24),
                   TextFormField(
                     controller: _newPasswordController,
-                    decoration: const InputDecoration(labelText: 'New Password'),
+                    decoration: const InputDecoration(
+                      labelText: 'New Password',
+                    ),
                     obscureText: true,
-                    validator: (value) =>
-                        value == null || value.isEmpty ? 'Enter your new password' : null,
+                    validator: (value) => value == null || value.isEmpty
+                        ? 'Enter your new password'
+                        : null,
                   ),
                   const SizedBox(height: 24),
                   if (_errorMessage.isNotEmpty)
-                    Text(_errorMessage, style: const TextStyle(color: Colors.red)),
+                    Text(
+                      _errorMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: _loading
