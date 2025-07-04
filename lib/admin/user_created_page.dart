@@ -6,7 +6,11 @@ class UserCreatedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("User Created")),
+      appBar: AppBar(
+        title: const Text("User Created"),
+        backgroundColor: const Color(0xFF6A0DAD),
+        foregroundColor: Colors.white,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -31,7 +35,7 @@ class UserCreatedPage extends StatelessWidget {
                 },
                 icon: const Icon(Icons.dashboard),
                 label: const Text("Return to Dashboard"),
-              )
+              ),
             ],
           ),
         ),

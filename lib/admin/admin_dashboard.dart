@@ -1,210 +1,243 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:amplify_flutter/amplify_flutter.dart';
-// ignore: deprecated_member_use, avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-import 'admin_employee_list_page.dart';
-import 'signup_user_page.dart';
+// ignore_for_file: use_build_context_synchronously, avoid_print, deprecated_member_use
 
-class AdminDashboard extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:chronotrack/admin/admin_self_profile_page.dart';
+import 'package:chronotrack/admin/manage_users_page.dart';
+import 'package:chronotrack/admin/rejected_timesheets_page.dart';
+import 'package:chronotrack/admin/successful_timesheet_data_page.dart';
+import 'package:chronotrack/admin/successful_timesheets_page.dart';
+import 'package:chronotrack/admin/admin_list_expense_page.dart';
+import 'package:chronotrack/admin/rejected_expenses_page.dart';
+import 'package:chronotrack/admin/successful_expenses_page.dart';
+import 'package:chronotrack/user/upload_expense_page.dart';
+
+class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
 
-  @override
-  State<AdminDashboard> createState() => _AdminDashboardState();
-}
-
-class _AdminDashboardState extends State<AdminDashboard> {
-  List<String> allFiles = [];
-  List<String> filteredFiles = [];
-
-  final _nameFilterController = TextEditingController();
-  String? selectedMonth;
-  String? selectedYear;
-
-  final List<String> months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  final List<String> years = [
-    for (int y = DateTime.now().year - 1; y <= DateTime.now().year + 5; y++) '$y'
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchFileList();
-  }
-
-  Future<void> _signOut() async {
+  void _signOut(BuildContext context) async {
     try {
       await Amplify.Auth.signOut();
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/');
-    } on AuthException catch (e) {
-      debugPrint("Sign out failed: ${e.message}");
-    }
-  }
-
-  Future<void> fetchFileList() async {
-    const apiUrl =
-        "https://5ul39j72jj.execute-api.ca-central-1.amazonaws.com/prod/list-timesheets?prefix=";
-
-    try {
-      final response = await http.get(Uri.parse(apiUrl));
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final List<String> files = List<String>.from(data["files"]);
-        setState(() {
-          allFiles = files;
-          filteredFiles = files;
-        });
-      } else {
-        debugPrint("Error: ${response.statusCode}");
-      }
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
     } catch (e) {
-      debugPrint("Fetch error: $e");
+      print('Error signing out: $e');
     }
-  }
-
-  void applyFilters() {
-    final name = _nameFilterController.text.trim().toLowerCase();
-    setState(() {
-      filteredFiles = allFiles.where((file) {
-        final lowerFile = file.toLowerCase();
-        final matchName = name.isEmpty || lowerFile.contains(name);
-        final matchMonth =
-            selectedMonth == null || lowerFile.contains(selectedMonth!.toLowerCase());
-        final matchYear =
-            selectedYear == null || lowerFile.contains(selectedYear!);
-        return matchName && matchMonth && matchYear;
-      }).toList();
-    });
-  }
-
-  Future<void> downloadFile(String fileName) async {
-    final presignUrl =
-        "https://fwwuilivmf.execute-api.ca-central-1.amazonaws.com/prod/generate-url?filename=$fileName&action=download";
-
-    try {
-      final response = await http.get(Uri.parse(presignUrl));
-      if (response.statusCode == 200) {
-        final downloadUrl = jsonDecode(response.body)['download_url'];
-        html.AnchorElement anchor = html.AnchorElement(href: downloadUrl)
-          ..target = 'blank'
-          ..download = fileName;
-        html.document.body!.append(anchor);
-        anchor.click();
-        anchor.remove();
-      } else {
-        debugPrint("Failed to get download URL: ${response.statusCode}");
-      }
-    } catch (e) {
-      debugPrint("Download error: $e");
-    }
-  }
-
-  void _goToEmployeeList() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const AdminEmployeeListPage()),
-    );
-  }
-
-  void _goToSignupUserPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const SignupUserPage()),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Admin Dashboard"),
+        title: const Text(
+          "Admin Dashboard",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: const Color(0xFF6A0DAD),
+        foregroundColor: Colors.white,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.group),
-            tooltip: 'View All Employees',
-            onPressed: _goToEmployeeList,
+          Tooltip(
+            message: 'Manage Employees',
+            child: IconButton(
+              icon: const Icon(Icons.people_alt_outlined),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ManageUsersPage()),
+                );
+              },
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.person_add),
-            tooltip: 'Create New User',
-            onPressed: _goToSignupUserPage,
+          Tooltip(
+            message: 'Admin Profile',
+            child: IconButton(
+              icon: const Icon(Icons.account_circle_outlined),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AdminSelfProfilePage(),
+                  ),
+                );
+              },
+            ),
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Sign Out',
-            onPressed: _signOut,
-          )
+          Tooltip(
+            message: 'Sign Out',
+            child: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () => _signOut(context),
+            ),
+          ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text("Filter Timesheets", style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _nameFilterController,
-                    decoration: const InputDecoration(labelText: "Employee Name"),
-                    onChanged: (_) => applyFilters(),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth > 600;
+
+          return Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Wrap(
+                direction: isWide ? Axis.horizontal : Axis.vertical,
+                spacing: 20,
+                runSpacing: 20,
+                alignment: WrapAlignment.center,
+                children: [
+                  _buildDashboardCard(
+                    context,
+                    title: 'Successful Timesheet Files',
+                    icon: Icons.check_circle_outline,
+                    color: theme.primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SuccessfulTimesheetsPage(),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedMonth,
-                    items: months
-                        .map((m) => DropdownMenuItem(value: m, child: Text(m)))
-                        .toList(),
-                    onChanged: (val) => setState(() {
-                      selectedMonth = val;
-                      applyFilters();
-                    }),
-                    decoration: const InputDecoration(labelText: "Month"),
+                  _buildDashboardCard(
+                    context,
+                    title: 'Successful Timesheet Data',
+                    icon: Icons.folder_copy_sharp,
+                    color: theme.secondary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SuccessfulTimesheetDataPage(),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedYear,
-                    items: years
-                        .map((y) => DropdownMenuItem(value: y, child: Text(y)))
-                        .toList(),
-                    onChanged: (val) => setState(() {
-                      selectedYear = val;
-                      applyFilters();
-                    }),
-                    decoration: const InputDecoration(labelText: "Year"),
+                  _buildDashboardCard(
+                    context,
+                    title: 'Rejected Timesheets',
+                    icon: Icons.error_outline,
+                    color: Colors.red.shade400,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RejectedTimesheetsPage(),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              ],
+
+                  // New Admin Expense Cards
+                  _buildDashboardCard(
+                    context,
+                    title: 'Show All Expenses (Edit/Delete)',
+                    icon: Icons.receipt_long,
+                    color: Colors.indigo,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AdminListExpensePage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildDashboardCard(
+                    context,
+                    title: 'Upload Expense (Admin)',
+                    icon: Icons.upload_file,
+                    color: Colors.green,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const UploadExpensePage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildDashboardCard(
+                    context,
+                    title: 'Rejected Expense Receipts',
+                    icon: Icons.report_gmailerrorred_outlined,
+                    color: Colors.deepOrange,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RejectedExpensesPage(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildDashboardCard(
+                    context,
+                    title: 'Successful Expense Receipts',
+                    icon: Icons.task_alt,
+                    color: Colors.blueGrey,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SuccessfulExpensesPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: filteredFiles.isEmpty
-                  ? const Center(child: Text("No files match the selected filters."))
-                  : ListView.builder(
-                      itemCount: filteredFiles.length,
-                      itemBuilder: (context, index) {
-                        final file = filteredFiles[index];
-                        return ListTile(
-                          title: Text(file),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.download),
-                            onPressed: () => downloadFile(file),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDashboardCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 280,
+          height: 160,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: color.withOpacity(0.4), width: 1.2),
+            boxShadow: [
+              BoxShadow(
+                color: color.withOpacity(0.3),
+                offset: const Offset(2, 4),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: color),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
