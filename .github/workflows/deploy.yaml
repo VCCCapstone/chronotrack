@@ -16,9 +16,9 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.22.1'  # Required for Dart 3.8.0 compatibility
+        flutter-version: '3.19.6'
 
-    - name: Enable Flutter web
+    - name: Enable Flutter Web
       run: flutter config --enable-web
 
     - name: Install dependencies
@@ -33,7 +33,7 @@ jobs:
     - name: Build Docker image
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/chronotrack-web:latest .
 
-    - name: Push Docker image to Docker Hub
+    - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/chronotrack-web:latest
 
     - name: Setup SSH
@@ -47,9 +47,9 @@ jobs:
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           echo "[*] Waiting for new image to be available..."
-          sleep 120
+          sleep 60
           echo "[*] Updating Chronotrack K3s Deployment..."
-          kubectl set image deployment/chronotrack-web chronotrack-web=docker.io/yashjani99/chronotrack-web:latest --record
+          kubectl set image deployment/chronotrack-web chronotrack-web=docker.io/${{ secrets.DOCKER_USERNAME }}/chronotrack-web:latest --record
           kubectl rollout status deployment/chronotrack-web
           echo "[✔] Deployment complete!"
         EOF
