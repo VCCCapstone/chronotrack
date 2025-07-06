@@ -30,10 +30,11 @@ jobs:
       - name: Set up kubeconfig for k3s
         run: |
           echo "${{ secrets.KUBECONFIG_DATA }}" > kubeconfig.yaml
-          export KUBECONFIG=$PWD/kubeconfig.yaml
-          kubectl get nodes
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig.yaml
 
-      - name: Deploy to Kubernetes
+      - name: Rollout Deployment in Kubernetes
         run: |
-          export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl rollout restart deployment chronotrack-web
+        env:
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig.yaml
