@@ -27,8 +27,13 @@ jobs:
           docker build --no-cache -t ${{ secrets.DOCKER_USERNAME }}/chronotrack-web:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/chronotrack-web:latest
 
-      - name: Deploy to Kubernetes
-        env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      - name: Set up kubeconfig for k3s
         run: |
+          echo "${{ secrets.KUBECONFIG_DATA }}" > kubeconfig.yaml
+          export KUBECONFIG=$PWD/kubeconfig.yaml
+          kubectl get nodes
+
+      - name: Deploy to Kubernetes
+        run: |
+          export KUBECONFIG=$PWD/kubeconfig.yaml
           kubectl rollout restart deployment chronotrack-web
