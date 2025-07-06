@@ -4,20 +4,20 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ">=3.6.0 <4.0.0"
+  sdk: ^3.8.0
 
 dependencies:
   flutter:
     sdk: flutter
-  file_picker: ^6.1.1
-  http: ^1.2.1
+  file_picker: ^10.2.0
+  http: ^1.4.0
   excel: ^2.1.0
   amplify_flutter: ^2.6.1
   amplify_auth_cognito: ^2.6.1
-  amplify_authenticator: ^2.2.0       # ✅ Dart 3.4-compatible
+  amplify_authenticator: ^2.3.3
   jwt_decoder: ^2.0.1
   intl: ^0.20.2
-  amplify_api: ^2.1.0
+  amplify_api: ^2.1.0        
   url_launcher: ^6.2.5
   mime: ^1.0.4
   photo_view: ^0.14.0
@@ -25,9 +25,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.1
+  flutter_lints: ^5.0.0
 
 flutter:
   uses-material-design: true
   assets:
-    - lib/assets/default-icon.png      # ✅ Corrected the typo: "assests" → "assets"
+    - lib/assests/default-icon.png
