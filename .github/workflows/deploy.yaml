@@ -13,17 +13,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install Flutter 3.19.6 manually
+    - name: Install Flutter 3.19.6 (with Dart 3.4.3) manually
       run: |
-        git clone https://github.com/flutter/flutter.git --depth 1 --branch 3.19.6
+        curl -o flutter_linux_3.19.6-stable.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz
+        tar xf flutter_linux_3.19.6-stable.tar.xz
         echo "$PWD/flutter/bin" >> $GITHUB_PATH
         export PATH="$PWD/flutter/bin:$PATH"
         flutter precache --web
         flutter doctor
 
-    - name: Debug Dart version
+    - name: Confirm Dart version (should be 3.4.3)
       run: |
-        echo "PATH: $PATH"
         flutter --version
         dart --version
 
