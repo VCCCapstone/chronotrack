@@ -13,32 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Download Flutter SDK manually
-      run: |
-        curl -O https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz
-        tar xf flutter_linux_3.19.6-stable.tar.xz
-        echo "FLUTTER_HOME=$PWD/flutter" >> $GITHUB_ENV
-
-    - name: Verify Dart/Flutter version from manual SDK
-      run: |
-        export PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH"
-        flutter --version
-        dart --version
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.6'
+        channel: 'stable'
+        cache: false  # ⛔ disables cached SDK
 
     - name: Enable Flutter Web
-      run: |
-        export PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH"
-        flutter config --enable-web
+      run: PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH" flutter config --enable-web
 
     - name: Install dependencies
-      run: |
-        export PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH"
-        flutter pub get
+      run: PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH" flutter pub get
 
     - name: Build Flutter Web
-      run: |
-        export PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH"
-        flutter build web
+      run: PATH="$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH" flutter build web --no-cache --verbose
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
