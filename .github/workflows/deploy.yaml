@@ -13,13 +13,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Download Flutter SDK 3.19.6
+    - name: Download Flutter SDK manually
       run: |
         curl -O https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.6-stable.tar.xz
         tar xf flutter_linux_3.19.6-stable.tar.xz
         echo "$PWD/flutter/bin" >> $GITHUB_PATH
+        echo "FLUTTER_HOME=$PWD/flutter" >> $GITHUB_ENV
 
-    - name: Verify Flutter & Dart version
+    - name: Set PATH to use manual Flutter install
+      run: |
+        echo "Using FLUTTER from: $FLUTTER_HOME"
+        echo "$FLUTTER_HOME/bin" >> $GITHUB_PATH
+        echo "$FLUTTER_HOME/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
+
+    - name: Verify versions (Dart 3.4 expected)
       run: |
         flutter --version
         dart --version
