@@ -1,0 +1,11 @@
+build/linux
+build/windows
+build/macos
+android
+ios
+.git
+.gitignore
+README.md
+test
+*.dart
+*.md

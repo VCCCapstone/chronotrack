@@ -105,6 +105,8 @@ class _ChronoTrackAppState extends State<ChronoTrackApp> {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: (settings) {
         switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(builder: (_) => const LoginPage());
           case '/login':
             return MaterialPageRoute(builder: (_) => const LoginPage());
           case '/upload':
