@@ -3,7 +3,7 @@ name: Build and Deploy to Chronotrack K3s
 on:
   push:
     branches:
-      - master  # or 'master' if that’s your default branch
+      - master
 
 jobs:
   build-and-deploy:
@@ -12,6 +12,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.6'  # Use your Flutter version
+
+    - name: Enable web
+      run: flutter config --enable-web
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Build Flutter Web
+      run: flutter build web
 
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
