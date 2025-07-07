@@ -29,7 +29,7 @@ class _AdminEmployeeListPageState extends State<AdminEmployeeListPage> {
     fetchEmployees();
   }
 
-  Future<void> fetchEmployees() async {
+  Future<void> fetchEmployees() async { // fetch employees function
     try {
       final response = await http.get(Uri.parse(listUrl));
       if (response.statusCode == 200) {
