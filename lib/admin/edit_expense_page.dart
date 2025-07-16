@@ -16,6 +16,10 @@ class _EditExpensePageState extends State<EditExpensePage> {
   late TextEditingController _vendorController;
   late TextEditingController _amountController;
   late TextEditingController _dateController;
+  late TextEditingController _locationController;
+  late TextEditingController _gsthstController;
+  late TextEditingController _pstController;
+  late TextEditingController _tipController;
   late TextEditingController _notesController;
   bool _loading = false;
   String _status = '';
@@ -27,9 +31,28 @@ class _EditExpensePageState extends State<EditExpensePage> {
       text: widget.expense['vendor'] ?? '',
     );
     _amountController = TextEditingController(
-      text: widget.expense['amount']?.toString() ?? '',
+      text: (widget.expense['total_amount'] ?? widget.expense['total'] ?? '')
+          .toString(),
     );
-    _dateController = TextEditingController(text: widget.expense['date'] ?? '');
+    _dateController = TextEditingController(
+      text: widget.expense['purchase_date'] ?? '',
+    );
+    _locationController = TextEditingController(
+      text: widget.expense['location'] ?? '',
+    );
+    _gsthstController = TextEditingController(
+      text:
+          (widget.expense['gsthstPaidTotal'] ??
+                  widget.expense['tax_amount'] ??
+                  '0')
+              .toString(),
+    );
+    _pstController = TextEditingController(
+      text: (widget.expense['pstPaidTotal'] ?? '0').toString(),
+    );
+    _tipController = TextEditingController(
+      text: (widget.expense['tipAmount'] ?? '0').toString(),
+    );
     _notesController = TextEditingController(
       text: widget.expense['notes'] ?? '',
     );
@@ -44,14 +67,19 @@ class _EditExpensePageState extends State<EditExpensePage> {
       'expenseId': widget.expense['expenseId'],
       'email': widget.expense['email'],
       'vendor': _vendorController.text.trim(),
-      'amount': double.tryParse(_amountController.text.trim()) ?? 0.0,
-      'date': _dateController.text.trim(),
+      'total_amount': double.tryParse(_amountController.text.trim()) ?? 0.0,
+      'purchase_date': _dateController.text.trim(),
+      'location': _locationController.text.trim(),
+      'gsthstPaidTotal': double.tryParse(_gsthstController.text.trim()) ?? 0.0,
+      'pstPaidTotal': double.tryParse(_pstController.text.trim()) ?? 0.0,
+      'tipAmount': double.tryParse(_tipController.text.trim()) ?? 0.0,
       'notes': _notesController.text.trim(),
     };
 
     final url = Uri.parse(
       'https://b93r46mokk.execute-api.ca-central-1.amazonaws.com/prod/expense/update',
     );
+
     final res = await http.post(
       url,
       body: jsonEncode(updatedData),
@@ -71,6 +99,22 @@ class _EditExpensePageState extends State<EditExpensePage> {
     }
   }
 
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    String? Function(String?)? validator,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(labelText: label),
+      validator:
+          validator ??
+          (value) => value == null || value.isEmpty ? 'Required' : null,
+      keyboardType: keyboardType,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,36 +128,47 @@ class _EditExpensePageState extends State<EditExpensePage> {
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                controller: _vendorController,
-                decoration: const InputDecoration(labelText: 'Vendor'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
-              ),
+              _buildTextField(controller: _vendorController, label: 'Vendor'),
               const SizedBox(height: 10),
-              TextFormField(
+              _buildTextField(
                 controller: _amountController,
-                decoration: const InputDecoration(labelText: 'Amount (\$)'),
+                label: 'Total Amount (\$)',
                 keyboardType: TextInputType.number,
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
               ),
               const SizedBox(height: 10),
-              TextFormField(
+              _buildTextField(
+                controller: _gsthstController,
+                label: 'GST/HST (\$)',
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _pstController,
+                label: 'PST (\$)',
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
+                controller: _tipController,
+                label: 'Tip (\$)',
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
                 controller: _dateController,
-                decoration: const InputDecoration(
-                  labelText: 'Date (DD-MMM-YYYY)',
-                ),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
+                label: 'Purchase Date (DD-MMM-YYYY)',
               ),
               const SizedBox(height: 10),
-              TextFormField(
+              _buildTextField(
+                controller: _locationController,
+                label: 'Location',
+              ),
+              const SizedBox(height: 10),
+              _buildTextField(
                 controller: _notesController,
-                decoration: const InputDecoration(labelText: 'Notes'),
-                maxLines: 3,
+                label: 'Notes',
+                keyboardType: TextInputType.multiline,
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
