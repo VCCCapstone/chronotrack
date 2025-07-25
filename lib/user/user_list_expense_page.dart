@@ -124,7 +124,7 @@ class _UserListExpensePageState extends State<UserListExpensePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Submitted Expenses'),
-        backgroundColor: const Color.fromARGB(5, 225, 196, 29),
+        backgroundColor: Colors.pink,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
