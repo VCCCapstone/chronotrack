@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset('assets/images/logo.png', height: 250),
                   const Text(
-                    "Sign in to continu",
+                    "Sign in to continue",
                     style: TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 24),
