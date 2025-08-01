@@ -116,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               key: _formKey,
               child: Column(
                 children: [
+                  Image.asset('assets/images/logo.png', height: 250),
                   const Text(
                     "Sign in to continue",
                     style: TextStyle(fontSize: 20),
