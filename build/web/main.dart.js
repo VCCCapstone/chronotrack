@@ -71555,7 +71555,7 @@ if(j==null)j=0
 i+=k
 h+=j}s=A.e8(12)
 r=A.awI(B.b6,1)
-return A.pW(f,A.df(A.a([B.b79,B.hC,A.aT("Filtered: Total = $"+B.q.al(q,2)+", With Tax = $"+B.q.al(p,2),f,f,f,f,f,f,f),A.aT("All: Total = $"+B.q.al(i,2)+", With Tax = $"+B.q.al(h,2),f,f,f,f,f,f,f)],t.p),B.bM,B.a7,B.al),B.ac,f,f,new A.fk(B.wk,f,r,s,f,f,B.bU),f,f,B.a2C,B.e7,f,f,f)},
+return A.pW(f,A.df(A.a([B.b78,B.hC,A.aT("Filtered: Total = $"+B.q.al(q,2)+", With Tax = $"+B.q.al(p,2),f,f,f,f,f,f,f),A.aT("All: Total = $"+B.q.al(i,2)+", With Tax = $"+B.q.al(h,2),f,f,f,f,f,f,f)],t.p),B.bM,B.a7,B.al),B.ac,f,f,new A.fk(B.wk,f,r,s,f,f,B.bU),f,f,B.a2C,B.e7,f,f,f)},
 E0(a,b){return this.an4(a,b)},
 an4(a,b){var s=0,r=A.x(t.H),q=this,p,o
 var $async$E0=A.t(function(c,d){if(c===1)return A.u(d,r)
@@ -71625,7 +71625,7 @@ q=n.w
 if(q.length===0)q=m
 o=A.a7(r).h("a6<1,hd<c>>")
 o=A.a1(new A.a6(r,new A.b15(),o),o.h("an.E"))
-return A.pg(B.cV,A.a([l,A.Fg(m,B.tN,o,new A.b16(n),m,q,p),A.eJ(A.p6(!0,B.ay,!1,m,!0,B.Z,m,A.qX(),m,m,m,m,m,m,2,B.a68,B.aq,!0,m,!0,m,!1,m,B.bJ,m,m,m,m,m,m,m,1,m,m,!1,"\u2022",m,new A.b17(n),m,m,m,!1,m,m,!1,m,!0,m,B.bZ,m,m,B.bT,B.bL,m,m,m,m,m,m,m,!0,B.b2,m,B.cN,m,m,m,m),m,250),A.Cx(B.b7i,new A.b18(n),m)],t.p),B.T4,B.be,8,16)},
+return A.pg(B.cV,A.a([l,A.Fg(m,B.tN,o,new A.b16(n),m,q,p),A.eJ(A.p6(!0,B.ay,!1,m,!0,B.Z,m,A.qX(),m,m,m,m,m,m,2,B.a68,B.aq,!0,m,!0,m,!1,m,B.bJ,m,m,m,m,m,m,m,1,m,m,!1,"\u2022",m,new A.b17(n),m,m,m,!1,m,m,!1,m,!0,m,B.bZ,m,m,B.bT,B.bL,m,m,m,m,m,m,m,!0,B.b2,m,B.cN,m,m,m,m),m,250),A.Cx(B.b7h,new A.b18(n),m)],t.p),B.T4,B.be,8,16)},
 akK(a){var s,r,q,p,o,n,m,l,k,j,i,h=null,g=J.aw(a),f=g.i(a,"lastModified"),e=A.azw(f==null?"":f),d=e==null?h:e.Jq(),c=d!=null?A.bCY().t3("jm").k6(d):"N/A",b=g.i(a,"email")
 if(b==null)b=""
 e=g.i(a,"vendor")
@@ -72201,7 +72201,7 @@ return A.w($async$FB,r)},
 v3(a,b,c){var s=null,r=A.i0(s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,c,!0,!0,s,s,s,s,s,s,s,s,s,s,s,s,s)
 return A.ju(!1,a,r,s,s,s,b,1,!1,s,s,s,s,s,!1,new A.b5o())},
 Ma(a,b){return this.v3(a,B.hF,b)},
-S(a){var s,r,q,p,o,n,m,l,k,j=this,i=null,h=A.h7(i,B.b6,i,B.K,B.b70),g=j.e
+S(a){var s,r,q,p,o,n,m,l,k,j=this,i=null,h=A.h7(i,B.b6,i,B.K,B.b7_),g=j.e
 g===$&&A.b()
 g=j.Ma(g,"Vendor")
 s=j.f
@@ -72419,7 +72419,7 @@ A.Gu.prototype={
 avd(a,b){var s=A.dE(new A.aHB(b),null,t.z)
 A.cT(a,!1).ei(s)},
 S(a){var s=null,r=t.p
-return A.ho(A.h7(A.a([A.cA(s,s,s,B.eH,s,s,new A.aHC(a),s,s,s,s)],r),B.b6,s,B.K,B.b7f),A.fI(A.pg(B.hO,A.a([this.XE(a,"Create New User",B.a57,B.PZ),this.XE(a,"View All Users",B.ym,B.uL)],r),B.cW,B.be,16,16),s,s))},
+return A.ho(A.h7(A.a([A.cA(s,s,s,B.eH,s,s,new A.aHC(a),s,s,s,s)],r),B.b6,s,B.K,B.b7e),A.fI(A.pg(B.hO,A.a([this.XE(a,"Create New User",B.a57,B.PZ),this.XE(a,"View All Users",B.ym,B.uL)],r),B.cW,B.be,16,16),s,s))},
 XE(a,b,c,d){var s=null,r=A.e8(16)
 return A.eJ(A.lo(A.oz(!1,A.e8(16),!0,A.fI(A.df(A.a([A.wR(c,s,s,36),B.b0,A.aT(b,s,s,s,s,B.eT,s,s)],t.p),B.ag,B.a7,B.c1),s,s),s,!0,s,s,s,s,s,s,s,s,s,new A.aHA(this,a,d),s,s,s,s,s),4,s,new A.di(r,B.T)),120,200)}}
 A.aHB.prototype={
@@ -72483,7 +72483,7 @@ break
 case 4:A.n8().$1("Could not launch "+a)
 case 3:return A.v(null,r)}})
 return A.w($async$zq,r)},
-S(a){var s,r=this,q=null,p=A.h7(q,B.b6,q,B.K,B.b7j),o=A.p6(!0,B.ay,!1,q,!0,B.Z,q,A.qX(),q,q,q,q,q,q,2,B.yD,B.aq,!0,q,!0,q,!1,q,B.bJ,q,q,q,q,q,q,q,1,q,q,!1,"\u2022",q,r.gay1(r),q,q,q,!1,q,q,!1,q,!0,q,B.bZ,q,q,B.bT,B.bL,q,q,q,q,q,q,q,!0,B.b2,q,B.cN,q,q,q,q)
+S(a){var s,r=this,q=null,p=A.h7(q,B.b6,q,B.K,B.b7i),o=A.p6(!0,B.ay,!1,q,!0,B.Z,q,A.qX(),q,q,q,q,q,q,2,B.yD,B.aq,!0,q,!0,q,!1,q,B.bJ,q,q,q,q,q,q,q,1,q,q,!1,"\u2022",q,r.gay1(r),q,q,q,!1,q,q,!1,q,!0,q,B.bZ,q,q,B.bT,B.bL,q,q,q,q,q,q,q,!0,B.b2,q,B.cN,q,q,q,q)
 if(r.f)s=B.ey
 else s=A.kN(J.hT(r.e)?B.YC:A.QG(q,new A.b9R(r),J.bD(r.e),q,!1),1)
 return A.ho(p,new A.bj(B.e7,A.df(A.a([o,B.cg,s],t.p),B.ag,B.a7,B.al),q))}}
@@ -72798,7 +72798,7 @@ A.h6("\u274c Failed: "+m.bo(0,l))
 p.c.au(o).f.eY(A.v2(null,null,null,null,null,B.Z,null,A.aT("Failed to create user: "+A.ex(A.ew(n)).bo(0,l),null,null,null,null,null,null,null),null,B.bu,null,null,null,null,null,null,null,null,null))}case 1:return A.v(q,r)}})
 return A.w($async$DZ,r)},
 S(a){var s=this,r=null,q=t.p
-return A.ho(A.h7(A.a([A.cA(r,r,r,B.eH,r,r,new A.bbV(a),r,r,r,r)],q),B.b6,r,B.K,B.b75),A.fI(A.rX(A.lo(new A.bj(B.bZ,A.u8(r,A.df(A.a([s.zA("Full Name",s.e),s.azV("Email",s.f,!0),s.azW("Password",s.r,!0),A.q8(r,A.auH(!0,s.zA("DOB (DD-MMM-YYYY)",s.w)),B.aq,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,s.gaxl(),r,r,r,r,r,r),s.zA("Phone Number",s.x),s.zA("Address",s.y),s.a3x("Department",s.at,s.Q,new A.bbW(s)),s.zA("Reporting Manager",s.z),s.a3x("Role",s.ax,s.as,new A.bbX(s)),B.cg,A.ro(!1,B.b7D,r,r,r,r,r,r,s.gamN(),r,r)],q),B.ag,B.a7,B.al),s.d,r),r),r,B.e8,r),r),r,r))},
+return A.ho(A.h7(A.a([A.cA(r,r,r,B.eH,r,r,new A.bbV(a),r,r,r,r)],q),B.b6,r,B.K,B.b74),A.fI(A.rX(A.lo(new A.bj(B.bZ,A.u8(r,A.df(A.a([s.zA("Full Name",s.e),s.azV("Email",s.f,!0),s.azW("Password",s.r,!0),A.q8(r,A.auH(!0,s.zA("DOB (DD-MMM-YYYY)",s.w)),B.aq,!1,r,r,r,r,r,r,r,r,r,r,r,r,r,s.gaxl(),r,r,r,r,r,r),s.zA("Phone Number",s.x),s.zA("Address",s.y),s.a3x("Department",s.at,s.Q,new A.bbW(s)),s.zA("Reporting Manager",s.z),s.a3x("Role",s.ax,s.as,new A.bbX(s)),B.cg,A.ro(!1,B.b7D,r,r,r,r,r,r,s.gamN(),r,r)],q),B.ag,B.a7,B.al),s.d,r),r),r,B.e8,r),r),r,r))},
 OY(a,b,c,d){var s=null,r=c?B.R4:B.hF
 return new A.bj(B.cn,A.ju(!1,b,A.i0(s,B.ce,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,a,!0,!0,s,s,s,s,s,s,s,s,s,s,s,s,s),s,s,s,r,1,d,s,s,s,s,s,!1,new A.bbR()),s)},
 zA(a,b){return this.OY(a,b,!1,!1)},
@@ -73415,7 +73415,7 @@ r=s.f
 r.T$=q
 r.N$=0
 s.aJ()},
-S(a){var s,r,q,p,o=this,n=null,m=A.h7(n,B.b6,n,B.K,B.b71),l=t.p,k=A.a([A.p6(!0,B.ay,!1,n,!0,B.Z,n,A.qX(),o.d,n,n,n,n,n,2,B.yE,B.aq,!0,n,!0,n,!1,n,B.bJ,n,n,n,n,n,n,n,1,n,n,!1,"\u2022",n,n,n,n,n,!1,n,n,!1,n,!0,n,B.bZ,n,n,B.bT,B.bL,n,n,n,n,n,n,n,!0,B.b2,n,B.cN,n,n,n,n),B.cg],l)
+S(a){var s,r,q,p,o=this,n=null,m=A.h7(n,B.b6,n,B.K,B.b70),l=t.p,k=A.a([A.p6(!0,B.ay,!1,n,!0,B.Z,n,A.qX(),o.d,n,n,n,n,n,2,B.yE,B.aq,!0,n,!0,n,!1,n,B.bJ,n,n,n,n,n,n,n,1,n,n,!1,"\u2022",n,n,n,n,n,!1,n,n,!1,n,!0,n,B.bZ,n,n,B.bT,B.bL,n,n,n,n,n,n,n,!0,B.b2,n,B.cN,n,n,n,n),B.cg],l)
 if(o.r){s=A.p6(!0,B.ay,!1,n,!0,B.Z,n,A.qX(),o.e,n,n,n,n,n,2,B.a66,B.aq,!0,n,!0,n,!1,n,B.bJ,n,n,n,n,n,n,n,1,n,n,!1,"\u2022",n,n,n,n,n,!1,n,n,!1,n,!0,n,B.bZ,n,n,B.bT,B.bL,n,n,n,n,n,n,n,!0,B.b2,n,B.cN,n,n,n,n)
 r=A.p6(!0,B.ay,!1,n,!0,B.Z,n,A.qX(),o.f,n,n,n,n,n,2,B.yG,B.aq,!0,n,!0,n,!1,n,B.bJ,n,n,n,n,n,n,n,1,n,n,!0,"\u2022",n,n,n,n,n,!1,n,n,!1,n,!0,n,B.bZ,n,n,B.bT,B.bL,n,n,n,n,n,n,n,!0,B.b2,n,B.cN,n,n,n,n)
 q=o.x
@@ -73534,8 +73534,8 @@ s=this.f
 s.T$=r
 s.N$=0
 this.aJ()},
-S(a){var s=this,r=null,q=A.h7(r,B.b6,!0,B.K,B.b7g),p=A.bIl(r,r,new A.Nz("assets/images/logo.png",r,r)),o=A.ju(!1,s.e,B.yE,r,r,r,r,1,!1,r,r,r,r,r,!1,new A.b82()),n=s.x
-p=A.a([new A.AL(p,r,250,B.dK,r,!1,r),B.b6X,B.em,o,B.cg,A.ju(!1,s.f,A.i0(r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,"Password",!0,!0,r,r,r,r,r,r,r,r,A.cA(r,r,r,A.wR(n?B.a5g:B.a5f,r,r,r),r,r,new A.b83(s),r,r,r,r),r,r,r,r),r,r,r,r,1,n,r,r,r,r,r,!1,new A.b84()),B.em],t.p)
+S(a){var s=this,r=null,q=A.h7(r,B.b6,!0,B.K,B.b7f),p=A.bIl(r,r,new A.Nz("assets/images/logo.png",r,r)),o=A.ju(!1,s.e,B.yE,r,r,r,r,1,!1,r,r,r,r,r,!1,new A.b82()),n=s.x
+p=A.a([new A.AL(p,r,250,B.dK,r,!1,r),B.b7l,B.em,o,B.cg,A.ju(!1,s.f,A.i0(r,r,r,r,r,r,r,r,!0,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,"Password",!0,!0,r,r,r,r,r,r,r,r,A.cA(r,r,r,A.wR(n?B.a5g:B.a5f,r,r,r),r,r,new A.b83(s),r,r,r,r),r,r,r,r),r,r,r,r,1,n,r,r,r,r,r,!1,new A.b84()),B.em],t.p)
 o=s.r
 if(o.length!==0)p.push(A.aT(o,r,r,r,B.R9,r,r,r))
 p.push(B.hC)
@@ -73790,12 +73790,12 @@ m(){var s=this.e
 s.T$=$.aD()
 s.N$=0
 this.aJ()},
-S(a){var s,r=this,q=null,p=A.h7(q,B.b6,q,B.K,B.b77),o=A.a([B.b7k,B.em,A.ju(!1,r.e,B.yG,q,q,q,q,1,!0,q,q,q,q,q,!1,new A.b8K()),B.em],t.p),n=r.f
+S(a){var s,r=this,q=null,p=A.h7(q,B.b6,q,B.K,B.b76),o=A.a([B.b7j,B.em,A.ju(!1,r.e,B.yG,q,q,q,q,1,!0,q,q,q,q,q,!1,new A.b8K()),B.em],t.p),n=r.f
 if(n.length!==0)o.push(A.aT(n,q,q,q,B.R9,q,q,q))
 o.push(B.hC)
 n=r.r
 s=n?q:new A.b8L(r)
-o.push(A.ro(!1,n?B.ey:B.b6Z,q,q,q,q,q,q,s,q,q))
+o.push(A.ro(!1,n?B.ey:B.b6Y,q,q,q,q,q,q,s,q,q))
 return A.ho(p,new A.bj(B.e8,A.fI(A.rX(A.u8(q,A.df(o,B.ag,B.a7,B.al),r.d,q),q),q,q),q))}}
 A.b8C.prototype={
 $0(){var s=this.a
@@ -73941,10 +73941,10 @@ q.T$=p
 s=q.N$=0
 for(q=r.as;s<7;++s)q[s].gdQ(0).ar(0,new A.be_())
 r.aJ()},
-S(a){var s,r,q,p,o,n,m,l=this,k=null,j=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],i=A.h7(k,B.b6,k,B.K,B.b7e),h=l.f
+S(a){var s,r,q,p,o,n,m,l=this,k=null,j=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],i=A.h7(k,B.b6,k,B.K,B.b7d),h=l.f
 if(h==null)h=B.cC
 else{s=t.p
-h=A.a([B.b6Y,B.cg,A.aT("Week ID: "+h,k,k,k,B.fC,k,k,k),B.hC,A.aT("Email: "+A.k(l.e),k,k,k,k,k,k,k),B.cg,A.ju(!1,l.r,B.a6b,k,k,k,k,1,!1,k,k,k,k,k,!1,new A.bdZ()),B.dS,B.b73,B.b0],s)
+h=A.a([B.b6X,B.cg,A.aT("Week ID: "+h,k,k,k,B.fC,k,k,k),B.hC,A.aT("Email: "+A.k(l.e),k,k,k,k,k,k,k),B.cg,A.ju(!1,l.r,B.a6b,k,k,k,k,1,!1,k,k,k,k,k,!1,new A.bdZ()),B.dS,B.b72,B.b0],s)
 for(r=l.as,q=0;q<7;++q){p=A.aT(j[q],k,k,k,k,k,k,k)
 o=r[q].i(0,"am")
 o.toString
@@ -74103,7 +74103,7 @@ case 8:case 1:return A.v(q,r)
 case 2:return A.u(o.at(-1),r)}})
 return A.w($async$rL,r)},
 S(a){var s=this,r=null,q=t.p,p=A.h7(A.a([A.cA(r,r,r,B.a5H,r,r,new A.beh(a),r,r,r,"View Submitted Expenses")],q),B.b6,r,B.K,B.b7q),o=A.e8(20),n=A.aT(s.d,r,r,r,B.b4L,B.eT,r,r),m=A.a46(r,r,B.a_X,r,r,r,r,r,r,B.K,r,r,B.a2S,r,new A.di(A.e8(12),B.T),r,r,r,r,r)
-return A.ho(p,A.fI(new A.bj(B.e8,A.lo(new A.bj(B.xf,A.df(A.a([n,B.dS,new A.US(s.f,r),B.dS,A.bjr(B.a5w,B.b7c,s.e?r:s.gaxk(),m)],q),B.ag,B.a7,B.c1),r),8,r,new A.di(o,B.T)),r),r,r))}}
+return A.ho(p,A.fI(new A.bj(B.e8,A.lo(new A.bj(B.xf,A.df(A.a([n,B.dS,new A.US(s.f,r),B.dS,A.bjr(B.a5w,B.b7b,s.e?r:s.gaxk(),m)],q),B.ag,B.a7,B.c1),r),8,r,new A.di(o,B.T)),r),r,r))}}
 A.be8.prototype={
 $1(a){return a.a.geg(0)==="email"},
 $S:64}
@@ -74281,7 +74281,7 @@ l=A.lo(A.oz(!1,A.e8(16),!0,new A.bj(B.kG,A.ki(B.aQc,B.ag,B.a7,B.c1),q),q,!0,q,q,
 m=A.e8(16)
 m=A.lo(A.oz(!1,A.e8(16),!0,new A.bj(B.kG,A.ki(B.aPw,B.ag,B.a7,B.c1),q),q,!0,q,q,q,q,q,q,q,q,q,r.gacY(),q,q,q,q,q),6,q,new A.di(m,B.T))
 s=A.e8(16)
-return A.ho(o,A.fI(new A.bj(B.xf,A.df(A.a([B.b7l,B.b0Y,n,B.dS,l,B.dS,m,B.dS,A.lo(A.oz(!1,A.e8(16),!0,new A.bj(B.kG,A.ki(B.aQu,B.ag,B.a7,B.c1),q),q,!0,q,q,q,q,q,q,q,q,q,r.gad_(),q,q,q,q,q),6,q,new A.di(s,B.T)),B.Qm,new A.Td(r.d,B.b57,q)],p),B.ag,B.jb,B.al),q),q,q))}}
+return A.ho(o,A.fI(new A.bj(B.xf,A.df(A.a([B.b7k,B.b0Y,n,B.dS,l,B.dS,m,B.dS,A.lo(A.oz(!1,A.e8(16),!0,new A.bj(B.kG,A.ki(B.aQu,B.ag,B.a7,B.c1),q),q,!0,q,q,q,q,q,q,q,q,q,r.gad_(),q,q,q,q,q),6,q,new A.di(s,B.T)),B.Qm,new A.Td(r.d,B.b57,q)],p),B.ag,B.jb,B.al),q),q,q))}}
 A.bei.prototype={
 $1(a){return a.a.geg(0)==="email"},
 $S:64}
@@ -74797,7 +74797,7 @@ n=A.d9(p.b,!0,q)
 B.l.hq(n)
 B.l.E(s,new A.a6(n,new A.bfr(o),A.a7(n).h("a6<1,f4>")))}},
 S(a){var s=this
-return A.df(A.a([B.b74,B.hC,new A.NC(new A.bfm(),new A.bfn(s),new A.bfo(s),new A.bfp(s),new A.bfq(s),null,t.tS)],t.p),B.bM,B.a7,B.al)}}
+return A.df(A.a([B.b73,B.hC,new A.NC(new A.bfm(),new A.bfn(s),new A.bfo(s),new A.bfp(s),new A.bfq(s),null,t.tS)],t.p),B.bM,B.a7,B.al)}}
 A.bfr.prototype={
 $1(a){return new A.f4(a,this.a)},
 $S:482}
@@ -134085,10 +134085,10 @@ B.i4=new A.kC(2,"auth")
 B.vW=new A.kC(3,"dataStore")
 B.vX=new A.kC(5,"storage")
 B.vY=new A.kC(6,"pushNotifications")
-B.b76=new A.bC("No employees found.",null,null,null,null,null,null,null,null,null)
-B.YB=new A.jW(B.aH,null,null,B.b76,null)
-B.b78=new A.bC("No rejected receipts found.",null,null,null,null,null,null,null,null,null)
-B.YC=new A.jW(B.aH,null,null,B.b78,null)
+B.b75=new A.bC("No employees found.",null,null,null,null,null,null,null,null,null)
+B.YB=new A.jW(B.aH,null,null,B.b75,null)
+B.b77=new A.bC("No rejected receipts found.",null,null,null,null,null,null,null,null,null)
+B.YC=new A.jW(B.aH,null,null,B.b77,null)
 B.bfR=new A.aeo(0,"material")
 B.ey=new A.tI(null,null,null,null,null,null,null,null,null,null)
 B.cC=new A.jW(B.aH,null,null,B.ey,null)
@@ -135067,8 +135067,8 @@ B.a5x=new A.dH(B.q9,null,B.fn,null,null)
 B.nw=new A.hJ(12,null,null,null)
 B.b8=new A.os(4,500)
 B.nF=new A.I(!0,null,null,null,null,null,16,B.b8,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.b7h=new A.bC("Upload Timesheet File",null,B.nF,null,null,null,null,null,null,null)
-B.aAJ=A.a(s([B.a5x,B.nw,B.b7h]),t.p)
+B.b7g=new A.bC("Upload Timesheet File",null,B.nF,null,null,null,null,null,null,null)
+B.aAJ=A.a(s([B.a5x,B.nw,B.b7g]),t.p)
 B.bag=A.B("pb")
 B.bbI=A.B("KP")
 B.aAK=A.a(s([B.bag,B.bbI]),t.w)
@@ -135474,8 +135474,8 @@ B.a_x=new A.F(1,0,0.30196078431372547,0.25098039215686274,B.y)
 B.aUP=new A.b8([50,B.a_8,100,B.a_a,200,B.a_p,300,B.ZY,400,B.a_c,500,B.ZX,600,B.a_i,700,B.a_9,800,B.a0x,900,B.a_x],t.pl)
 B.aV9=new A.lF(B.aUP,1,0,0.5882352941176471,0.5333333333333333,B.y)
 B.a5q=new A.dH(B.yo,null,B.aV9,null,null)
-B.b7d=new A.bC("Upload Expense Receipt",null,B.nF,null,null,null,null,null,null,null)
-B.aPw=A.a(s([B.a5q,B.nw,B.b7d]),t.p)
+B.b7c=new A.bC("Upload Expense Receipt",null,B.nF,null,null,null,null,null,null,null)
+B.aPw=A.a(s([B.a5q,B.nw,B.b7c]),t.p)
 B.JX=new A.a7F("NewDeviceMetadataType")
 B.aPx=A.a(s([B.JX]),A.S("E<aG<mD>>"))
 B.aPy=A.a(s([B.S6]),t.w)
@@ -140649,8 +140649,8 @@ B.nd=new A.nR(null,null)
 B.aZq=new A.ST(1333)
 B.rW=new A.ST(2222)
 B.aZr=new A.aaf(null,null)
-B.b7a=new A.bC("404 \u2013 Page Not Found",null,null,null,null,null,null,null,null,null)
-B.YD=new A.jW(B.aH,null,null,B.b7a,null)
+B.b79=new A.bC("404 \u2013 Page Not Found",null,null,null,null,null,null,null,null,null)
+B.YD=new A.jW(B.aH,null,null,B.b79,null)
 B.aZs=new A.uP(null,B.YD,null)
 B.aZt=new A.uP(null,B.cC,null)
 B.fw=new A.xU(0,"idle")
@@ -140964,8 +140964,8 @@ B.b7E=new A.bC("File deleted successfully",null,null,null,null,null,null,null,nu
 B.QA=new A.jp(B.b7E,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b6T=new A.bC("Profile changes saved.",null,null,null,null,null,null,null,null,null)
 B.b1j=new A.jp(B.b6T,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
-B.b7_=new A.bC("Profile updated successfully",null,null,null,null,null,null,null,null,null)
-B.b1k=new A.jp(B.b7_,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
+B.b6Z=new A.bC("Profile updated successfully",null,null,null,null,null,null,null,null,null)
+B.b1k=new A.jp(B.b6Z,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b6W=new A.bC("Expense deleted successfully",null,null,null,null,null,null,null,null,null)
 B.b1l=new A.jp(B.b6W,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b7G=new A.bC("Failed to delete file",null,null,null,null,null,null,null,null,null)
@@ -140976,10 +140976,10 @@ B.b6U=new A.bC("\u2705 Timesheet deleted successfully.",null,null,null,null,null
 B.QC=new A.jp(B.b6U,B.fo,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b7u=new A.bC("\u2705 Timesheet submitted successfully",null,null,null,null,null,null,null,null,null)
 B.b1n=new A.jp(B.b7u,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
-B.b72=new A.bC("Failed to delete expense",null,null,null,null,null,null,null,null,null)
-B.b1o=new A.jp(B.b72,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
-B.b7b=new A.bC("Employee deleted successfully",null,null,null,null,null,null,null,null,null)
-B.b1p=new A.jp(B.b7b,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
+B.b71=new A.bC("Failed to delete expense",null,null,null,null,null,null,null,null,null)
+B.b1o=new A.jp(B.b71,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
+B.b7a=new A.bC("Employee deleted successfully",null,null,null,null,null,null,null,null,null)
+B.b1p=new A.jp(B.b7a,null,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b7r=new A.bC("\u2705 Record updated successfully",null,null,null,null,null,null,null,null,null)
 B.b1q=new A.jp(B.b7r,B.fo,null,null,null,null,null,null,null,null,null,null,null,B.bu,null,null,null,B.Z,null)
 B.b7F=new A.bC("User created successfully",null,null,null,null,null,null,null,null,null)
@@ -141387,31 +141387,31 @@ B.b2S=new A.I(!0,B.R,null,".AppleSystemUIFont",null,null,null,null,null,null,nul
 B.b6R=new A.i4(B.b4F,B.b3E,B.b4G,B.b5b,B.b3h,B.b3o,B.b3Y,B.b50,B.b4a,B.b5F,B.b2K,B.b3_,B.b5y,B.b5U,B.b2S)
 B.b6S=new A.bC("Submit Timesheet",null,null,null,null,null,null,null,null,null)
 B.b6V=new A.bC("Rejected Timesheets",null,null,null,null,null,null,null,null,null)
-B.Rb=new A.I(!0,null,null,null,null,null,20,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.b6X=new A.bC("Sign in to continue",null,B.Rb,null,null,null,null,null,null,null)
 B.b3Q=new A.I(!0,B.d6,null,null,null,null,null,B.d_,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.b6Y=new A.bC("Submit timesheets before Saturday 23:59",null,B.b3Q,null,null,null,null,null,null,null)
-B.b6Z=new A.bC("Confirm Password",null,null,null,null,null,null,null,null,null)
-B.b70=new A.bC("Edit Expense Record",null,null,null,null,null,null,null,null,null)
-B.b71=new A.bC("Reset Password",null,null,null,null,null,null,null,null,null)
-B.b73=new A.bC("Enter Working Hours:",null,null,null,null,null,null,null,null,null)
-B.b74=new A.bC("Vendor",null,null,null,null,null,null,null,null,null)
+B.b6X=new A.bC("Submit timesheets before Saturday 23:59",null,B.b3Q,null,null,null,null,null,null,null)
+B.b6Y=new A.bC("Confirm Password",null,null,null,null,null,null,null,null,null)
+B.b7_=new A.bC("Edit Expense Record",null,null,null,null,null,null,null,null,null)
+B.b70=new A.bC("Reset Password",null,null,null,null,null,null,null,null,null)
+B.b72=new A.bC("Enter Working Hours:",null,null,null,null,null,null,null,null,null)
+B.b73=new A.bC("Vendor",null,null,null,null,null,null,null,null,null)
 B.Rd=new A.bC("Cancel",null,null,null,null,null,null,null,null,null)
-B.b75=new A.bC("Create New User",null,null,null,null,null,null,null,null,null)
-B.b77=new A.bC("Set New Password",null,null,null,null,null,null,null,null,null)
-B.b79=new A.bC("Summary Totals",null,B.R8,null,null,null,null,null,null,null)
+B.b74=new A.bC("Create New User",null,null,null,null,null,null,null,null,null)
+B.b76=new A.bC("Set New Password",null,null,null,null,null,null,null,null,null)
+B.b78=new A.bC("Summary Totals",null,B.R8,null,null,null,null,null,null,null)
 B.Re=new A.bC("Delete",null,null,null,null,null,null,null,null,null)
-B.b7c=new A.bC("Choose Receipt File",null,null,null,null,null,null,null,null,null)
+B.b7b=new A.bC("Choose Receipt File",null,null,null,null,null,null,null,null,null)
 B.Rf=new A.bC("Are you sure you want to delete this expense?",null,null,null,null,null,null,null,null,null)
-B.b7e=new A.bC("Fill Timesheet Form",null,null,null,null,null,null,null,null,null)
-B.b7f=new A.bC("Manage Users",null,null,null,null,null,null,null,null,null)
-B.b7g=new A.bC("ChronoTrack Login",null,null,B.eT,null,null,null,null,null,null)
-B.b7i=new A.bC("Clear Filters",null,null,null,null,null,null,null,null,null)
-B.b7j=new A.bC("Rejected Expense Receipts",null,null,null,null,null,null,null,null,null)
-B.b7k=new A.bC("Set a new password",null,B.Rb,null,null,null,null,null,null,null)
+B.b7d=new A.bC("Fill Timesheet Form",null,null,null,null,null,null,null,null,null)
+B.b7e=new A.bC("Manage Users",null,null,null,null,null,null,null,null,null)
+B.b7f=new A.bC("ChronoTrack Login",null,null,B.eT,null,null,null,null,null,null)
+B.b7h=new A.bC("Clear Filters",null,null,null,null,null,null,null,null,null)
+B.b7i=new A.bC("Rejected Expense Receipts",null,null,null,null,null,null,null,null,null)
+B.Rb=new A.I(!0,null,null,null,null,null,20,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
+B.b7j=new A.bC("Set a new password",null,B.Rb,null,null,null,null,null,null,null)
 B.Rg=new A.bC("Confirm Deletion",null,null,null,null,null,null,null,null,null)
 B.Rc=new A.I(!0,null,null,null,null,null,20,B.d_,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.b7l=new A.bC("Upload your weekly timesheet",null,B.Rc,null,null,null,null,null,null,null)
+B.b7k=new A.bC("Upload your weekly timesheet",null,B.Rc,null,null,null,null,null,null,null)
+B.b7l=new A.bC("Sign in to continu",null,B.Rb,null,null,null,null,null,null,null)
 B.b7m=new A.bC("Confirm Reset",null,null,null,null,null,null,null,null,null)
 B.b7n=new A.bC("Successful Expense Receipts",null,null,null,null,null,null,null,null,null)
 B.b7o=new A.bC("All Employees",null,null,null,null,null,null,null,null,null)
