@@ -151,6 +151,12 @@ class _LoginPageState extends State<LoginPage> {
                     validator: (value) => value == null || value.isEmpty
                         ? 'Enter your password'
                         : null,
+                    onFieldSubmitted: (_) {
+                      // 👈 This runs when Enter is pressed
+                      if (_formKey.currentState!.validate()) {
+                        _signIn();
+                      }
+                    },
                   ),
                   const SizedBox(height: 24),
                   if (_errorMessage.isNotEmpty)
